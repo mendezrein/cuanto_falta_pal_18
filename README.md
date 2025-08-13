@@ -1,3 +1,6 @@
+# Preview
+https://mendezrein.github.io/cuanto_falta_pal_18/
+
 # Countdown Timer
 
 This project is a simple countdown timer that displays the time left until a specific date and time. It is built using HTML, CSS, and JavaScript.
