@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
+<!--
+                                         /$$                    
+                                        | $$                    
+ /$$$$$$/$$$$   /$$$$$$  /$$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$$$
+| $$_  $$_  $$ /$$__  $$| $$__  $$ /$$__  $$ /$$__  $$|____ /$$/
+| $$ \ $$ \ $$| $$$$$$$$| $$  \ $$| $$  | $$| $$$$$$$$   /$$$$/ 
+| $$ | $$ | $$| $$_____/| $$  | $$| $$  | $$| $$_____/  /$$__/  
+| $$ | $$ | $$|  $$$$$$$| $$  | $$|  $$$$$$$|  $$$$$$$ /$$$$$$$$
+|__/ |__/ |__/ \_______/|__/  |__/ \_______/ \_______/|________/
+                                                                
+                                                                
+                                                                
+                     /$$                                        
+                    |__/                                        
+  /$$$$$$   /$$$$$$  /$$ /$$$$$$$                               
+ /$$__  $$ /$$__  $$| $$| $$__  $$                              
+| $$  \__/| $$$$$$$$| $$| $$  \ $$                              
+| $$      | $$_____/| $$| $$  | $$                              
+| $$      |  $$$$$$$| $$| $$  | $$                              
+|__/       \_______/|__/|__/  |__/                              
+-->
 <head>
     <title>Cuánto Falta Csm?</title>
     <link rel="icon" href="https://www.google.com/s2/favicons?sz=64&domain=gob.cl">
-
-    <!-- Open Graph / LinkedIn -->
+        <!-- Open Graph / LinkedIn -->
     <meta property="og:title" content="¿Cuánto falta pal 18?">
     <meta property="og:description" content="Cuenta regresiva para el 18 de septiembre.">
     <meta property="og:image" content="https://raw.githubusercontent.com/mendezrein/cuanto_falta_pal_18/refs/heads/main/cuanto-faltal-18-preview.png">
     <meta property="og:url" content="https://mendezrein.github.io/cuanto_falta_pal_18/">
     <meta property="og:type" content="website">
-
     <style>
         body {
             margin: 0;
@@ -117,6 +136,10 @@
             <div class="time-value" id="seconds"></div>
             <div class="time-label">Segundos</div>
         </div>
+        <div class="time">
+            <div class="time-value" id="milliseconds"></div>
+            <div class="time-label">Milisegundos</div>
+        </div>
     </div>
 
     <script>
@@ -124,6 +147,7 @@
         var hours = document.getElementById("hours");
         var minutes = document.getElementById("minutes");
         var seconds = document.getElementById("seconds");
+        var milliseconds = document.getElementById("milliseconds");
         var video = document.getElementById("background-video");
         var tapText = document.querySelector(".tap-text");
 
@@ -137,11 +161,13 @@
             var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             var secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            var millisecondsLeft = Math.floor((timeLeft % 1000));
 
             days.innerHTML = daysLeft;
             hours.innerHTML = ("0" + hoursLeft).slice(-2);
             minutes.innerHTML = ("0" + minutesLeft).slice(-2);
             seconds.innerHTML = ("0" + secondsLeft).slice(-2);
+            milliseconds.innerHTML = ("00" + millisecondsLeft).slice(-3);
 
             if (timeLeft < 0) {
                 clearInterval(timer);
@@ -149,8 +175,9 @@
                 hours.innerHTML = "00";
                 minutes.innerHTML = "00";
                 seconds.innerHTML = "00";
+                milliseconds.innerHTML = "000";
             }
-        }, 1000);
+        }, 10);
 
         function toggleMute() {
             video.muted = !video.muted;
