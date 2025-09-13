@@ -100,15 +100,13 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
             pointer-events: none;
         }
+@media (max-width: 600px) {
+    .container {
+        transform: scale(2);
+        transform-origin: center;
+    }
+}
 
-        @media (max-width: 600px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .time {
-                margin: 8px 0;
-            }
         }
     </style>
 </head>
