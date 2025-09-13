@@ -100,10 +100,18 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
             pointer-events: none;
         }
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .container {
-        transform: scale(2);
-        transform-origin: center;
+        width: 90vw;      /* take most of the screen width */
+        transform: scale(1);
+    }
+
+    .time-value {
+        font-size: 14vw;  /* responsive numbers */
+    }
+
+    .tap-text {
+        font-size: 8vw;   /* responsive text */
     }
 }
 
