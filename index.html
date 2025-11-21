@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <!--
                                          /$$                    
                                         | $$                    
@@ -22,178 +22,412 @@
 |__/       \_______/|__/|__/  |__/                              
 -->
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuánto Falta Csm?</title>
     <link rel="icon" href="https://www.google.com/s2/favicons?sz=64&domain=gob.cl">
-        <!-- Open Graph / LinkedIn -->
+    
+    <!-- SEO & Social -->
     <meta property="og:title" content="¿Cuánto falta pal 18?">
     <meta property="og:description" content="Cuenta regresiva para el 18 de septiembre.">
     <meta property="og:image" content="https://raw.githubusercontent.com/mendezrein/cuanto_falta_pal_18/refs/heads/main/cuanto-faltal-18-preview.png">
     <meta property="og:url" content="https://mendezrein.github.io/cuanto_falta_pal_18/">
     <meta property="og:type" content="website">
+
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-color: #e0e5ec;
+            --surface-color: #e0e5ec;
+            --counter-bg: #f8fff5;
+            --accent-color: #ff6b00;
+            --text-primary: #4a4a4a;
+            --text-secondary: #8d9aa5;
+            
+            /* Neuromorphic Shadows */
+            --shadow-light: #ffffff;
+            --shadow-dark: #a3b1c6;
+        }
+
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh;
-            font-family: 'Arial', sans-serif;
-            background: #e0e0e0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent scrollbars from canvas */
+        }
+
+        /* Pixel Animation Canvas */
+        #pixel-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6; /* Subtle blend */
+            pointer-events: none;
+        }
+
+        /* Video Container */
+        .media-container {
             position: relative;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            margin-top: 20px;
-            border-radius: 50px;
-            box-shadow:  20px 20px 60px #bebebe,
-             -20px -20px 60px #ffffff;
-                         background: #f9fff6;
-
-        }
-
-        .time {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 8px;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        .time-value {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1;
-            color: #333;
-        }
-
-        .time-label {
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            
+            /* Neuromorphic Frame */
+            padding: 8px;
+            background: var(--surface-color);
+            box-shadow: 
+                15px 15px 30px var(--shadow-dark), 
+                -15px -15px 30px var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            z-index: 10;
         }
 
         video {
             width: 100%;
-            max-width: 600px;
-            margin-bottom: 5px;
-            box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
-            border-radius: 15px;
+            border-radius: 12px;
+            display: block;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
         }
 
-        .tap-text {
+        /* Main Counter Container */
+        .container {
             position: absolute;
-            top: 50%;
+            bottom: 1.5rem;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 36px;
-            color: #fff;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-            pointer-events: none;
+            transform: translateX(-50%);
+            
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+            gap: 0.5rem;
+            
+            background: var(--counter-bg);
+            border-radius: 25px;
+            
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            
+            width: 90%;
+            max-width: 550px;
+            box-sizing: border-box;
+            z-index: 20;
+            transition: all 0.5s ease;
         }
-  @media (max-width: 1200px) {
-    .time-value {
-        font-size: 14vw !important;
-    }
-    .tap-text {
-        font-size: 8vw !important;
-    }
-    .container {
-        width: 90vw !important;
-    }
-}
 
+        /* Timer Blocks */
+        .time {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            flex: 1;
+            background: transparent;
+            transition: opacity 0.3s ease;
+        }
 
+        .time-value {
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1;
+            color: var(--accent-color);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-label {
+            margin-top: 4px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        /* Celebration Text - Hidden by default */
+        .celebration-message {
+            display: none;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 900;
+            color: #D52B1E; /* Chile Red */
+            text-align: center;
+            text-transform: uppercase;
+            line-height: 1.1;
+            text-shadow: 2px 2px 0px #0039A6; /* Blue Shadow */
+            animation: pulse-msg 0.8s infinite alternate;
+            padding: 10px;
+            width: 100%;
+        }
+
+        @keyframes pulse-msg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* Footer Text */
+        .footer-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+
+        .footer-text:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .container {
+                bottom: 10px;
+                padding: 8px;
+                gap: 2px;
+                width: 94%;
+            }
+            .time-value {
+                font-size: 1.4rem;
+            }
+            .time-label {
+                font-size: 0.5rem;
+                letter-spacing: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <video id="background-video" loop autoplay muted playsinline>
-        <source src="mendezrein-18-septiembre.mp4" type="video/mp4">
-        <p>Your browser does not support the video tag.</p>
-    </video>
-    <div class="tap-text">(Tap para escuchar)</div>
+    <!-- Pixel Background -->
+    <canvas id="pixel-bg"></canvas>
 
-    <div class="container">
-        <div class="time">
-            <div class="time-value" id="days"></div>
-            <div class="time-label">Días</div>
-        </div>
-        <div class="time">
-            <div class="time-value" id="hours"></div>
-            <div class="time-label">Horas</div>
-        </div>
-        <div class="time">
-            <div class="time-value" id="minutes"></div>
-            <div class="time-label">Minutos</div>
-        </div>
-        <div class="time">
-            <div class="time-value" id="seconds"></div>
-            <div class="time-label">Segundos</div>
-        </div>
-        <div class="time">
-            <div class="time-value" id="milliseconds"></div>
-            <div class="time-label">Milisegundos</div>
+    <div class="media-container">
+        <video id="background-video" loop autoplay muted playsinline preload="auto">
+            <source src="https://mendezrein.github.io/cuanto_falta_pal_18/mendezrein-18-septiembre.mp4" type="video/mp4">
+        </video>
+
+        <div class="container" id="counter-container">
+            <!-- Standard Timer -->
+            <div class="time">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Días</div>
+            </div>
+            <div class="time">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hrs</div>
+            </div>
+            <div class="time">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Min</div>
+            </div>
+            <div class="time">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Sec</div>
+            </div>
+            <div class="time">
+                <div class="time-value" id="milliseconds">000</div>
+                <div class="time-label">Ms</div>
+            </div>
+            
+            <!-- Hidden Celebration Message -->
+            <div class="celebration-message" id="celebration">
+                ¡Viva Chile MIERDA!
+            </div>
         </div>
     </div>
+    
+    <div class="footer-text" id="tap-indicator">(Tap para escuchar)</div>
 
     <script>
-        var days = document.getElementById("days");
-        var hours = document.getElementById("hours");
-        var minutes = document.getElementById("minutes");
-        var seconds = document.getElementById("seconds");
-        var milliseconds = document.getElementById("milliseconds");
-        var video = document.getElementById("background-video");
-        var tapText = document.querySelector(".tap-text");
+        // --- CONFIGURATION ---
+        // EASILY EDIT DATE HERE
+        // Note: Month is 0-indexed (0 = January, 8 = September, 11 = December)
+        const TARGET_DATE = {
+            MONTH: 8,  // September
+            DAY: 18    // 18th
+        };
 
-        var endDate = new Date("2026-09-17T23:59:59-03:00").getTime();
+        // --- Pixel Animation (Chilean Celebration) ---
+        const canvas = document.getElementById('pixel-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
 
-        var timer = setInterval(function() {
-            var now = new Date().getTime();
-            var timeLeft = endDate - now;
+        // Chilean Colors: Red, Blue, White
+        const colors = ['#D52B1E', '#0039A6', '#FFFFFF']; 
 
-            var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            var secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            var millisecondsLeft = Math.floor((timeLeft % 1000));
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
 
-            days.innerHTML = daysLeft;
-            hours.innerHTML = ("0" + hoursLeft).slice(-2);
-            minutes.innerHTML = ("0" + minutesLeft).slice(-2);
-            seconds.innerHTML = ("0" + secondsLeft).slice(-2);
-            milliseconds.innerHTML = ("00" + millisecondsLeft).slice(-3);
-
-            if (timeLeft < 0) {
-                clearInterval(timer);
-                days.innerHTML = "00";
-                hours.innerHTML = "00";
-                minutes.innerHTML = "00";
-                seconds.innerHTML = "00";
-                milliseconds.innerHTML = "000";
+        class Pixel {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height; // Start scattered
             }
-        }, 10);
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -10;
+                this.size = Math.random() * 6 + 4; // Pixel size 4-10px
+                this.speed = Math.random() * 2 + 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.1 + 0.05;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.wobble += this.wobbleSpeed;
+                this.x += Math.sin(this.wobble) * 0.5;
+
+                if (this.y > height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                // Draw square for pixel effect
+                ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.size, this.size);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(window.innerWidth / 10); // Responsive count
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Pixel());
+            }
+        }
+
+        function animatePixels() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animatePixels);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+        
+        resize();
+        initParticles();
+        animatePixels();
+
+        // --- Counter & Logic ---
+        const els = {
+            days: document.getElementById("days"),
+            hours: document.getElementById("hours"),
+            minutes: document.getElementById("minutes"),
+            seconds: document.getElementById("seconds"),
+            ms: document.getElementById("milliseconds"),
+            video: document.getElementById("background-video"),
+            tapText: document.getElementById("tap-indicator"),
+            timeBlocks: document.querySelectorAll('.time'),
+            celebrationMsg: document.getElementById('celebration')
+        };
+
+        const MS_PER_SECOND = 1000;
+        const MS_PER_MINUTE = MS_PER_SECOND * 60;
+        const MS_PER_HOUR = MS_PER_MINUTE * 60;
+        const MS_PER_DAY = MS_PER_HOUR * 24;
+
+        function updateTimer() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentDate = now.getDate();
+
+            // --- CELEBRATION CHECK ---
+            // Check if today matches the config date
+            if (currentMonth === TARGET_DATE.MONTH && currentDate === TARGET_DATE.DAY) {
+                // Hide time blocks
+                els.timeBlocks.forEach(block => block.style.display = 'none');
+                // Show celebration message
+                els.celebrationMsg.style.display = 'block';
+                
+                // Continue loop to check when the day ends
+                requestAnimationFrame(updateTimer);
+                return;
+            } else {
+                // Ensure normal state
+                els.timeBlocks.forEach(block => block.style.display = 'flex');
+                els.celebrationMsg.style.display = 'none';
+            }
+
+            // --- COUNTDOWN LOGIC ---
+            // Determine target date dynamically
+            let targetYear = now.getFullYear();
+            
+            // Create date based on configuration
+            let targetDate = new Date(targetYear, TARGET_DATE.MONTH, TARGET_DATE.DAY, 0, 0, 0);
+
+            // If we are past the target date for this year, set target to next year.
+            if (now.getTime() > targetDate.getTime()) {
+                targetDate.setFullYear(targetYear + 1);
+            }
+
+            const timeLeft = targetDate.getTime() - now.getTime();
+
+            const days = Math.floor(timeLeft / MS_PER_DAY);
+            const hours = Math.floor((timeLeft % MS_PER_DAY) / MS_PER_HOUR);
+            const minutes = Math.floor((timeLeft % MS_PER_HOUR) / MS_PER_MINUTE);
+            const seconds = Math.floor((timeLeft % MS_PER_MINUTE) / MS_PER_SECOND);
+            const ms = Math.floor(timeLeft % MS_PER_SECOND);
+
+            els.days.textContent = days;
+            els.hours.textContent = hours < 10 ? '0' + hours : hours;
+            els.minutes.textContent = minutes < 10 ? '0' + minutes : minutes;
+            els.seconds.textContent = seconds < 10 ? '0' + seconds : seconds;
+            
+            if (ms < 10) els.ms.textContent = '00' + ms;
+            else if (ms < 100) els.ms.textContent = '0' + ms;
+            else els.ms.textContent = ms;
+
+            requestAnimationFrame(updateTimer);
+        }
+
+        requestAnimationFrame(updateTimer);
 
         function toggleMute() {
-            video.muted = !video.muted;
-            if (!video.muted) {
-                tapText.style.display = "none";
+            els.video.muted = !els.video.muted;
+            
+            if (!els.video.muted) {
+                els.tapText.textContent = "🔊 Sonido Activado";
+                els.video.play().catch(e => console.log("Audio play prevented"));
+            } else {
+                els.tapText.textContent = "(Tap para escuchar)";
             }
         }
 
         document.body.addEventListener('click', toggleMute);
-
-        document.addEventListener('keydown', function(event) {
-            if (event.code === 'Space') {
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
                 toggleMute();
             }
         });
