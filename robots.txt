@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mendezrein.github.io/cuanto_falta_pal_18/sitemap.xml
